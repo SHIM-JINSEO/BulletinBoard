@@ -12,8 +12,7 @@ function CheckUser(email: string, password: string, navigate: any): void {
       password: password,
     })
     .then((res) => {
-      console.log(res);
-      localStorage.setItem("tokens", res.data);
+      localStorage.setItem("tokens", res.data.accessToken);
       navigate('/');
     })
     .catch((error) => {

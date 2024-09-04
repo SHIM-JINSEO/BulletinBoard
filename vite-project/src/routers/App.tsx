@@ -1,5 +1,6 @@
 import "../App.css";
 import { Link, useNavigate } from "react-router-dom";
+import CreateBoard from "../React-components/CreateBoard";
 
 function App() {
   const naviagate = useNavigate();
@@ -15,6 +16,7 @@ function App() {
           Logout
         </button>
         <p>Hello User!!! You are logined</p>
+        <CreateBoard></CreateBoard>
         </>
       ) : (
         <>
