@@ -2,7 +2,12 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function registerUser(nickname: string, email: string, password: string, navigate: any): void {
+function registerUser(
+  nickname: string,
+  email: string,
+  password: string,
+  navigate: any
+): void {
   axios
     .post("/api/auth/register", {
       nickname: nickname,
@@ -11,7 +16,7 @@ function registerUser(nickname: string, email: string, password: string, navigat
     })
     .then(() => {
       console.log("registered succesfully");
-      navigate('/');
+      navigate("/");
     })
     .catch((error) => {
       console.error("An error occured:", error);

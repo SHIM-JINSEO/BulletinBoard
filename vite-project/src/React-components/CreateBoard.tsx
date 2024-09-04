@@ -26,6 +26,7 @@ export default function CreateBoard() {
   const [boardTitle, setBoardTitle] = useState("");
   return (
     <>
+      <h2>Create New Board!!!</h2>
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -39,7 +40,8 @@ export default function CreateBoard() {
             setBoardTitle(event.target.value);
           }}
         />
-        <input type="submit" />
+        <br></br>
+        <input type="submit" value="CreateNewBoard" />
       </form>
     </>
   );
