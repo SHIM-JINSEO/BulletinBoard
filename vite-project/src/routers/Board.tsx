@@ -1,7 +1,34 @@
 import { useParams } from "react-router-dom";
+import { useBorads } from "../Context/BoardsContext";
 
 export default function Board() {
   const params = useParams();
-  console.log(params);
-  return <>Id of this board is {params.boardId}</>;
+  const boards = useBorads();
+  type board = {
+    id: string;
+    title: string;
+    createdAt: string;
+    creator: {
+      id: string;
+      email: string;
+      nickname: string;
+      createdAt: string;
+    };
+  };
+  let currnetBorad: board | undefined = undefined;
+  boards.forEach((board: board) => {
+    if (board.id === params.boardId) {
+      currnetBorad = board;
+    }
+  });
+  if (currnetBorad) {
+    return (
+      <>
+        <h1>{currnetBorad.title}</h1>
+        <button>Delete this board</button>
+      </>
+    );
+  } else {
+    return <h1>We cannot find this borad</h1>;
+  }
 }

@@ -1,11 +1,13 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 
 export default function CreateBoard() {
+  const queryClient = useQueryClient()
   const token = localStorage.getItem("tokens");
-  function postBoard(boardTitle: string) {
-    axios
-      .post(
+  const postBoard = useMutation({
+    mutationFn: (boardTitle: string) =>
+      axios.post(
         "/api/boards",
         {
           title: boardTitle,
@@ -15,29 +17,32 @@ export default function CreateBoard() {
             Authorization: `Bearer ${token}`,
           },
         }
-      )
-      .then((res) => {
+      ).then((res)=>{
         console.log(res);
       })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+      .catch((err)=>{
+        console.log(err)
+      }),
+    onSuccess() {
+      queryClient.invalidateQueries({queryKey: ["boards"]});
+    }
+  });
   const [boardTitle, setBoardTitle] = useState("");
+ 
   return (
     <>
       <h2>Create New Board!!!</h2>
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          postBoard(boardTitle);
+          postBoard.mutate(boardTitle);
         }}
       >
         <input
           type="text"
           name="CrateBoard"
           onChange={(event) => {
-            setBoardTitle(event.target.value);
+            setBoardTitle(event.target.value); 
           }}
         />
         <br></br>

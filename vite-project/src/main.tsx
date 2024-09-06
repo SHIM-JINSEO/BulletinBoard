@@ -6,7 +6,7 @@ import ErrorPage from "./routers/ErrorPage.tsx";
 import LoginPage from "./routers/LoginPage.tsx";
 import RegisterPage from "./routers/RegisterPage.tsx";
 import "./index.css";
-import TokensProvider from "./Context/TokensContext.tsx";
+import BoradsProvider from "./Context/BoardsContext.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Board from "./routers/Board.tsx";
 
@@ -30,15 +30,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/board/:boardId",
-    element: <Board />,
+    element: <Board/>,
   },
 ]);
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
-    <TokensProvider>
+    <BoradsProvider>
       <StrictMode>
         <RouterProvider router={router} />
       </StrictMode>
-    </TokensProvider>
+    </BoradsProvider>
   </QueryClientProvider>
 );
