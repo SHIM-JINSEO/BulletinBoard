@@ -57,6 +57,19 @@ function Posting() {
 }
 function PostingList() {
   const params = useParams();
+  const queryClient = useQueryClient();
+  const deltePosting = useMutation({
+    mutationFn: (postingID) =>
+      axios.delete(`/api/posts/${postingID}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    onSuccess() {
+      console.log("delete successfully");
+      queryClient.invalidateQueries({ queryKey: ["postings"] });
+    },
+  });
   const getPostings = useQuery({
     queryKey: ["postings"],
     queryFn: () => axios.get(`/api/posts?boardUuid=${params.boardId}`),
@@ -64,21 +77,27 @@ function PostingList() {
   const { data: postings, error } = getPostings;
   if (!error && postings) {
     return (
-      
       <>
         <h2>Posting List</h2>
-        {
-          postings.data.list.map((posting)=>{
-            return <div key={posting.id} style={{border:"1px solid grey"}}>
+        {postings.data.list.map((posting) => {
+          return (
+            <div key={posting.id} style={{ border: "1px solid grey" }}>
               <p>Title: {posting.title}</p>
               <p>CreateAt: {posting.createdAt}</p>
               <p>CreatedBy: {posting.createdBy.nickname}</p>
               <p>Body</p>
               <p>{posting.body}</p>
-              <input type="button" value="Delete this posting"></input>
+              <input
+                id={posting.id}
+                type="button"
+                value="Delete this posting"
+                onClick={(event) => {
+                  deltePosting.mutate(event.target.id);
+                }}
+              ></input>
             </div>
-          })
-        }
+          );
+        })}
       </>
     );
   } else {
