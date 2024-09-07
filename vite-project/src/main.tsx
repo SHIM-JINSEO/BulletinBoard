@@ -34,6 +34,7 @@ const router = createBrowserRouter([
   },
 ]);
 createRoot(document.getElementById("root")!).render(
+  
   <QueryClientProvider client={queryClient}>
     <BoradsProvider>
       <StrictMode>
@@ -41,4 +42,5 @@ createRoot(document.getElementById("root")!).render(
       </StrictMode>
     </BoradsProvider>
   </QueryClientProvider>
+  
 );

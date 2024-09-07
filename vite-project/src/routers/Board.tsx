@@ -3,7 +3,9 @@ import { useBorads } from "../Context/BoardsContext";
 
 export default function Board() {
   const params = useParams();
+  
   const boards = useBorads();
+  console.log(boards);
   type board = {
     id: string;
     title: string;
@@ -21,11 +23,14 @@ export default function Board() {
       currnetBorad = board;
     }
   });
+  function handleClick(){
+    console.log("clicked!")
+  }
   if (currnetBorad) {
     return (
       <>
         <h1>{currnetBorad.title}</h1>
-        <button>Delete this board</button>
+        <button onClick={handleClick}>Delete this board</button>
       </>
     );
   } else {
