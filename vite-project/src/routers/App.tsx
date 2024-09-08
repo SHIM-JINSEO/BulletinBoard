@@ -1,8 +1,8 @@
 import "../App.css";
 import { Link, useNavigate } from "react-router-dom";
-import CreateBoard from "../React-components/CreateBoard";
-import BoardList from "../React-components/BoardList";
-function App() {
+import CreateBoard from "../components/CreateBoard";
+import BoardList from "../components/BoardList";
+export default function App() {
   const naviagate = useNavigate();
   return (
     <>
@@ -34,5 +34,3 @@ function App() {
     </>
   );
 }
-
-export default App;
