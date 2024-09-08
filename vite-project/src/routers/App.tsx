@@ -7,11 +7,11 @@ function App() {
   return (
     <>
       <h1>Bulletin Board</h1>
-      {localStorage.getItem("tokens") ? (
+      {localStorage.getItem("accessToken") ? (
         <>
           <button
             onClick={() => {
-              localStorage.removeItem("tokens");
+              localStorage.removeItem("accessToken");
               naviagate("/");
             }}
           >

@@ -1,40 +1,42 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-function registerUser(
-  nickname: string,
-  email: string,
-  password: string,
-  navigate: any
-): void {
-  axios
-    .post("/api/auth/register", {
-      nickname: nickname,
-      email: email,
-      password: password,
-    })
-    .then(() => {
-      console.log("registered succesfully");
-      navigate("/");
-    })
-    .catch((error) => {
-      console.error("An error occured:", error);
-    });
-}
+import { useMutation } from "@tanstack/react-query";
 
 function RegisterPage() {
   const navigate = useNavigate();
   const [nickname, setNickname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
+  const registerUser = useMutation({
+    mutationFn: ({
+      nickname,
+      email,
+      password,
+    }: {
+      nickname: string;
+      email: string;
+      password: string;
+    }) =>
+      axios.post("/api/auth/register", {
+        nickname: nickname,
+        email: email,
+        password: password,
+      }),
+    onSuccess() {
+      navigate("/");
+    },
+  });
   return (
     <>
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          registerUser(nickname, email, password, navigate);
+          registerUser.mutate({
+            nickname: nickname,
+            email: email,
+            password: password,
+          });
         }}
       >
         <label>Nickname</label>

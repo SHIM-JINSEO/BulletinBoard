@@ -1,34 +1,35 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
-function CheckUser(email: string, password: string, navigate: any): void {
-  console.log(email, password);
-  axios
-    .post("/api/auth/login", {
-      email: email,
-      password: password,
-    })
-    .then((res) => {
-      localStorage.setItem("tokens", res.data.accessToken);
-      navigate('/');
-    })
-    .catch((error) => {
-      console.log("An error occured:", error.response);
-    });
-}
+import { Link, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 
 function LoginPage() {
-  const navigate = useNavigate();
+  const naviagte = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const loginUser = useMutation({
+    mutationFn: ({ email, password }: { email: string; password: string }) =>
+      axios.post("/api/auth/login", {
+        email: email,
+        password: password,
+      }),
+    onSuccess(data) {
+      localStorage.setItem("accessToken", data.data.accessToken);
+      localStorage.setItem("refreshToken", data.data.refreshToken);
+      localStorage.setItem("expiresln", data.data.expiresln);
+      naviagte("/");
+    },
+    onError(err) {
+      console.log(err);
+      alert("ID or Password is wrong")
+    }
+  });
   return (
     <>
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          CheckUser(email, password, navigate);
+          loginUser.mutate({ email: email, password: password });
         }}
       >
         <label>Email</label>

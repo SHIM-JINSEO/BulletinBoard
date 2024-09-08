@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function CreateBoard() {
   const queryClient = useQueryClient()
-  const token = localStorage.getItem("tokens");
+  const token = localStorage.getItem("accessToken");
   const postBoard = useMutation({
     mutationFn: (boardTitle: string) =>
       axios.post(

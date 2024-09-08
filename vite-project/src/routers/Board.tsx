@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 
-const token = localStorage.getItem("tokens");
+const token = localStorage.getItem("accessToken");
 
 function Posting() {
   const queryClient = useQueryClient();
