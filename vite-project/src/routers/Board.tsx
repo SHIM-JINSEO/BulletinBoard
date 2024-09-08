@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useBorads } from "../Context/BoardsContext";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
@@ -197,9 +196,7 @@ function PostingList() {
 export default function Board() {
   const queryClient = useQueryClient();
   const params = useParams();
-  const boards = useBorads();
   const naviagte = useNavigate();
-
   type board = {
     id: string;
     title: string;
@@ -211,10 +208,11 @@ export default function Board() {
       createdAt: string;
     };
   };
-  let currentBorad: board | undefined = undefined;
-  boards.forEach((board: board) => {
+  const boards: board[] | undefined = queryClient.getQueryData(["boards"]);
+  console.log(boards);
+  const currentBorad = boards?.find((board: board) => {
     if (board.id === params.boardId) {
-      currentBorad = board;
+      return true;
     }
   });
   const deleteBoard = useMutation({
@@ -237,7 +235,7 @@ export default function Board() {
           type="button"
           value="Delete this board"
           onClick={() => {
-            deleteBoard.mutate(params.boardId);
+            deleteBoard.mutate(currentBorad.id);
           }}
         />
         <Posting />
