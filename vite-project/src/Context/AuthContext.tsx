@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 type Auth = {
@@ -10,8 +16,18 @@ type Auth = {
   logout: () => void;
 };
 const AuthContext = createContext<Auth | undefined>(undefined);
+
 function useAuthProvider() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, []);
   const loginUser = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       axios.post("/api/auth/login", {

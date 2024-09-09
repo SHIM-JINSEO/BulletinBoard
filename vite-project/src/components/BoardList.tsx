@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import StyledH1 from "../style/StyledH1";
+import FlexContainer from "../style/FlexContainer";
+import StyledLink from "../style/StyledLink";
 export default function BoardList() {
   const { data, error } = useQuery({
     queryKey: ["boards"],
@@ -24,18 +26,23 @@ export default function BoardList() {
   if (data) {
     console.log();
     return (
-      <>
-        <h2>BoardList</h2>
-        <ul>
+      <FlexContainer deleteborder={true} flexwrap="wrap">
+        <StyledH1>Board List</StyledH1>
+        <ul style={{ listStyle: "none" }}>
           {data.map((board: board) => {
             return (
-              <Link to={"/board/" + board.id} key={board.id}>
-                <li>{board.title}</li>
-              </Link>
+              <StyledLink to={"/board/" + board.id} key={board.id}>
+                <li>
+                  {board.title}
+                  <br />
+                  CreatedBy
+                  <br />`{board.creator.nickname}`
+                </li>
+              </StyledLink>
             );
           })}
         </ul>
-      </>
+      </FlexContainer>
     );
   } else {
     console.log(error);

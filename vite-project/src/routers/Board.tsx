@@ -4,6 +4,9 @@ import axios from "axios";
 import CreatePosting from "../components/CreatePosting";
 import PostingList from "../components/PostingList";
 import { useAuth } from "../Context/AuthContext";
+import StyledH1 from "../style/StyledH1";
+import StyledButton from "../style/StyledButton";
+import FlexContainer from "../style/FlexContainer";
 export default function Board() {
   const auth = useAuth();
   const token = auth.accessToken;
@@ -40,25 +43,29 @@ export default function Board() {
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["boards"] });
       naviagte("../");
-      alert("Deleted board successfully")
+      alert("Deleted board successfully");
     },
-    onError(){
+    onError() {
       alert("Plese delete all postings in board firstly");
-    }
+    },
   });
   if (currentBorad) {
     return (
       <>
-        <h1>{currentBorad.title}</h1>
-        <input
+        <StyledH1>
+          {currentBorad.title} CreatedBy '{currentBorad.creator.nickname}'
+        </StyledH1>
+        <StyledButton
           type="button"
           value="Delete this board"
           onClick={() => {
             deleteBoard.mutate(currentBorad.id);
           }}
         />
-        <CreatePosting />
-        <PostingList />
+        <FlexContainer deleteborder deletecolor direction="row">
+          <CreatePosting />
+          <PostingList />
+        </FlexContainer>
       </>
     );
   } else {

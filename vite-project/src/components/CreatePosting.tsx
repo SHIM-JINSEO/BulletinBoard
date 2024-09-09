@@ -3,7 +3,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import { useAuth } from "../Context/AuthContext";
-
+import StyledButton from "../style/StyledButton";
+import StyledP from "../style/StyledP";
+import FlexContainer from "../style/FlexContainer";
+import StyledH1 from "../style/StyledH1";
 export default function CreatePosting() {
   const auth = useAuth();
   const token = auth.accessToken;
@@ -59,41 +62,51 @@ export default function CreatePosting() {
   });
 
   return (
-    <>
-      <h2>Posting</h2>
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          postPostings.mutate();
-        }}
-      >
-        <label>Title</label>
-        <br />
-        <input type="text" onChange={(event) => setTitle(event.target.value)} />
-        <br />
-        <label>body</label>
-        <br />
-        <textarea onChange={(event) => setBody(event.target.value)} />
-        <br />
-        <label>Tag</label>
-        <br />
-        <input type="text" onChange={(event) => setTag(event.target.value)} />
-        <br />
-        <label>Image</label>
-        <br />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(event) => {
-            if (event.target.files) {
-              const file = event.target.files[0];
-              setImg(file);
-            }
+    <FlexContainer deleteborder deletecolor width="400px" height="600px">
+      <StyledH1 as="h2">Upload Posting</StyledH1>
+      <FlexContainer width="95%" alignitems="strach">
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            postPostings.mutate();
           }}
-        />
-        <br />
-        <input type="submit" value="Posting" />
-      </form>
-    </>
+        >
+          <FlexContainer alignitems="start" deleteborder>
+            <StyledP>
+              Title
+              <input
+                type="text"
+                onChange={(event) => setTitle(event.target.value)}
+              />
+            </StyledP>
+            <StyledP>
+              #Tag{" "}
+              <input
+                type="text"
+                onChange={(event) => setTag(event.target.value)}
+              />
+            </StyledP>
+          </FlexContainer>
+          <StyledP>Body</StyledP>
+          <textarea
+            onChange={(event) => setBody(event.target.value)}
+            style={{ width: "100%", height: "200px" }}
+          />
+          <StyledButton
+            id="file"
+            name="file"
+            type="file"
+            accept="image/*"
+            onChange={(event) => {
+              if (event.target.files) {
+                const file = event.target.files[0];
+                setImg(file);
+              }
+            }}
+          />
+          <StyledButton type="submit" value="Posting" />
+        </form>
+      </FlexContainer>
+    </FlexContainer>
   );
 }

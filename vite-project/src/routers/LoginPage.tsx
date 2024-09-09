@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
+import StyledButton from "../style/StyledButton";
+import StyledP from "../style/StyledP";
+import FlexContainer from "../style/FlexContainer";
+import StyledLink from "../style/StyledLink";
+import StyledH1 from "../style/StyledH1";
 function LoginPage() {
   const auth = useAuth();
   const navigate = useNavigate();
@@ -14,14 +19,17 @@ function LoginPage() {
   const [password, setPassword] = useState<string>("");
 
   return (
-    <>
+    <FlexContainer width="400px" height="300px" justifycontent="center">
+      <StyledH1 as="h2">LOGIN</StyledH1>
       <form
         onSubmit={(event) => {
           event.preventDefault();
           auth.login(email, password);
         }}
       >
-        <label>Email</label>
+        <StyledP>
+          <label>Email</label>
+        </StyledP>
         <input
           type="text"
           name="email"
@@ -29,21 +37,21 @@ function LoginPage() {
           onChange={(e) => setEmail(e.target.value)}
         />
         <br></br>
-        <label>Password</label>
+        <StyledP>
+          <label>PassWord</label>
+        </StyledP>
         <input
           type="password"
           name="password"
           placeholder="Enter your password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <br></br>
-        <input type="submit" value="Login" />
-        <br></br>
+        <br />
+        <br />
+        <StyledButton type="submit" value="Login" />
+        <StyledLink to="../registerpage">Register</StyledLink>
       </form>
-      <Link to="../registerpage">
-        <input type="button" value="Register" />
-      </Link>
-    </>
+    </FlexContainer>
   );
 }
 

@@ -2,9 +2,13 @@ import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useAuth } from "../Context/AuthContext";
+import FlexContainer from "../style/FlexContainer";
+import StyledH1 from "../style/StyledH1";
+import StyledP from "../style/StyledP";
+import StyledButton from "../style/StyledButton";
 
 export default function PostingList() {
-  const auth = useAuth()
+  const auth = useAuth();
   const token = auth.accessToken;
   const params = useParams();
   const queryClient = useQueryClient();
@@ -76,53 +80,73 @@ export default function PostingList() {
       ];
     };
     return (
-      <>
-        <h2>Posting List</h2>
+      <FlexContainer direction="row" deleteborder deletecolor>
         {postings.data.list.map((posting: posting) => {
+          console.log(posting);
           return (
-            <div key={posting.id} style={{ border: "1px solid grey" }}>
-              <p>Title: {posting.title}</p>
-              <p>CreateAt: {posting.createdAt}</p>
-              <p>CreatedBy: {posting.createdBy.nickname}</p>
-              <p>Body</p>
-              <p>{posting.body}</p>
-              <p>Image</p>
-              {posting.images[0] ? (
-                <img
-                  src={
-                    posting.images[0].image
-                      ? "data:image/jpeg;base64," + posting.images[0].image
-                      : ""
-                  }
-                ></img>
-              ) : (
-                <p>"There is no images"</p>
-              )}
-              <p>Tag</p>
-              <p>{posting.tags[0]}</p>
-              <input
-                value="Delete this Image"
-                type="button"
-                onClick={() => {
-                  deleteImg.mutate({
-                    uuid: posting.id,
-                    imageId: posting.images[0].id,
-                  });
-                }}
-              />
-              <br />
-              <input
-                id={posting.id}
-                type="button"
-                value="Delete this posting"
-                onClick={() => {
-                  deletePosting.mutate(posting.id);
-                }}
-              />
-            </div>
+            <FlexContainer
+              deleteborder
+              deletecolor
+              width="400px"
+              height="600px"
+              justifycontent="center"
+            >
+              <StyledH1 as="h2">
+                Title: {posting.title} #{posting.tags[0]}
+              </StyledH1>
+              <FlexContainer
+                width="95%"
+                alignitems="strach"
+                justifycontent="start"
+              >
+                <StyledP>
+                  CreatedBy: {posting.createdBy.nickname}/ CreateAt:{" "}
+                  {posting.createdAt.substring(0, 10)}
+                </StyledP>
+
+                {posting.images[0] ? (
+                  <div>
+                    <img
+                      src={
+                        posting.images[0].image
+                          ? "data:image/*;base64," + posting.images[0].image
+                          : ""
+                      }
+                      style={{
+                        width: "350px",
+                        height: "350px",
+                        objectFit: "cover",
+                      }}
+                    ></img>
+                    <StyledButton
+                      value="Delete this Image"
+                      type="button"
+                      onClick={() => {
+                        deleteImg.mutate({
+                          uuid: posting.id,
+                          imageId: posting.images[0].id,
+                        });
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <StyledP>*There are no uploaded images*</StyledP>
+                )}
+
+                <StyledP>{posting.body}</StyledP>
+                <StyledButton
+                  id={posting.id}
+                  type="button"
+                  value="Delete this posting"
+                  onClick={() => {
+                    deletePosting.mutate(posting.id);
+                  }}
+                />
+              </FlexContainer>
+            </FlexContainer>
           );
         })}
-      </>
+      </FlexContainer>
     );
   } else {
     return (

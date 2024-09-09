@@ -3,7 +3,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../Context/AuthContext";
-
+import StyledButton from "../style/StyledButton";
+import StyledP from "../style/StyledP";
+import FlexContainer from "../style/FlexContainer";
+import StyledH1 from "../style/StyledH1";
 function RegisterPage() {
   const navigate = useNavigate();
   const auth = useAuth();
@@ -35,7 +38,8 @@ function RegisterPage() {
     },
   });
   return (
-    <>
+    <FlexContainer width="400px" justifycontent="center">
+      <StyledH1 as="h2">REGISTER</StyledH1>
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -46,7 +50,9 @@ function RegisterPage() {
           });
         }}
       >
-        <label>Nickname</label>
+        <StyledP>
+          <label>Nickname</label>
+        </StyledP>
         <input
           type="text"
           name="nickname"
@@ -56,7 +62,9 @@ function RegisterPage() {
           }}
         />
         <br></br>
-        <label>Email</label>
+        <StyledP>
+          <label>Email</label>
+        </StyledP>
         <input
           type="text"
           name="email"
@@ -66,7 +74,9 @@ function RegisterPage() {
           }}
         />
         <br></br>
-        <label>Password</label>
+        <StyledP>
+          <label>Password</label>
+        </StyledP>
         <input
           type="password"
           name="password"
@@ -75,10 +85,11 @@ function RegisterPage() {
             setPassword(e.target.value);
           }}
         />
-        <br></br>
-        <input type="submit" value="Register" />
+        <br />
+        <br />
+        <StyledButton type="submit" value="Register" />
       </form>
-    </>
+    </FlexContainer>
   );
 }
 
