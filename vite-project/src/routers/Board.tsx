@@ -62,7 +62,12 @@ export default function Board() {
             deleteBoard.mutate(currentBorad.id);
           }}
         />
-        <FlexContainer deleteborder deletecolor direction="row">
+        <FlexContainer
+          deleteborder
+          deletecolor
+          direction="row"
+          justifycontent="start"
+        >
           <CreatePosting />
           <PostingList />
         </FlexContainer>
