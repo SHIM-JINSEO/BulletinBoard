@@ -8,6 +8,7 @@ import RegisterPage from "./routers/RegisterPage.tsx";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Board from "./routers/Board.tsx";
+import AuthProvier from "./Context/AuthContext.tsx";
 
 const queryClient = new QueryClient();
 
@@ -35,11 +36,11 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   
   <QueryClientProvider client={queryClient}>
-    
+    <AuthProvier>
       <StrictMode>
         <RouterProvider router={router} />
       </StrictMode>
-      
+    </AuthProvier>
   </QueryClientProvider>
   
 );

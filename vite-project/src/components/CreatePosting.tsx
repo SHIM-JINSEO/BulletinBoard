@@ -2,9 +2,11 @@ import { useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
+import { useAuth } from "../Context/AuthContext";
 
 export default function CreatePosting() {
-  const token = localStorage.getItem("accessToken");
+  const auth = useAuth();
+  const token = auth.accessToken;
   const queryClient = useQueryClient();
   const [title, setTitle] = useState<string>("");
   const [body, setBody] = useState<string>("");

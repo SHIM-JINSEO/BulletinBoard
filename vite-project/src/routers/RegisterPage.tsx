@@ -2,9 +2,11 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import { useAuth } from "../Context/AuthContext";
 
 function RegisterPage() {
   const navigate = useNavigate();
+  const auth = useAuth();
   const [nickname, setNickname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -24,7 +26,12 @@ function RegisterPage() {
         password: password,
       }),
     onSuccess() {
+      alert("Register successfully");
       navigate("/");
+      auth.login(email, password);
+    },
+    onError() {
+      alert("Fail to register");
     },
   });
   return (

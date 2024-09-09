@@ -1,10 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
+import { useAuth } from "../Context/AuthContext";
 
 export default function CreateBoard() {
   const queryClient = useQueryClient()
-  const token = localStorage.getItem("accessToken");
+  const auth = useAuth();
+  const token = auth.accessToken;
   const postBoard = useMutation({
     mutationFn: (boardTitle: string) =>
       axios.post(

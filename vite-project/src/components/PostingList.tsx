@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useAuth } from "../Context/AuthContext";
 
 export default function PostingList() {
-  const token = localStorage.getItem("accessToken");
+  const auth = useAuth()
+  const token = auth.accessToken;
   const params = useParams();
   const queryClient = useQueryClient();
   const deletePosting = useMutation({
@@ -18,6 +20,7 @@ export default function PostingList() {
       queryClient.invalidateQueries({ queryKey: ["postings"] });
     },
     onError(err) {
+      alert("Plese delte images in posting firstly");
       console.log(err);
     },
   });

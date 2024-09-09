@@ -3,8 +3,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import CreatePosting from "../components/CreatePosting";
 import PostingList from "../components/PostingList";
+import { useAuth } from "../Context/AuthContext";
 export default function Board() {
-  const token = localStorage.getItem("accessToken");
+  const auth = useAuth();
+  const token = auth.accessToken;
   const queryClient = useQueryClient();
   const params = useParams();
   const naviagte = useNavigate();
@@ -38,7 +40,11 @@ export default function Board() {
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["boards"] });
       naviagte("../");
+      alert("Deleted board successfully")
     },
+    onError(){
+      alert("Plese delete all postings in board firstly");
+    }
   });
   if (currentBorad) {
     return (

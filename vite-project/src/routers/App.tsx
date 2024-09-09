@@ -1,24 +1,36 @@
 import "../App.css";
+// import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import CreateBoard from "../components/CreateBoard";
 import BoardList from "../components/BoardList";
+import { useAuth } from "../Context/AuthContext";
+
+/* const StyledDiv = styled.div`
+  background-color: grey;
+  text-align: center;
+  margin: 4px;
+` */
+
 export default function App() {
   const naviagate = useNavigate();
+  const auth = useAuth();
   return (
     <>
       <h1>Bulletin Board</h1>
-      {localStorage.getItem("accessToken") ? (
+      {auth.isLogin ? (
         <>
-          <button
+          <input
+            type="button"
             onClick={() => {
-              localStorage.removeItem("accessToken");
+              auth.logout();
               naviagate("/");
             }}
-          >
-            Logout
-          </button>
+            value="Logout"
+          />
+
           <p>Hello User!!! You are logined</p>
-          <CreateBoard></CreateBoard>
+          <CreateBoard />
+
           <BoardList></BoardList>
         </>
       ) : (
